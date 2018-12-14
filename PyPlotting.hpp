@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <cstdlib>
 #include <fstream>
+#include <string>
 #include <string_view>
 
 
@@ -87,6 +88,12 @@ namespace PyPlotting {
         outfile << "\n";
 
         outfile.close();
+    }
+
+    int RunPython(std::string python_version, std::string python_file)
+    {
+        std::string command_string = python_version + " " + python_file;
+        return  std::system(command_string.c_str());
     }
 
 }

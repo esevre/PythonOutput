@@ -8,6 +8,9 @@ int main()
 {
     using namespace PyPlotting;
 
+    //
+    //  Set up variables for test plot
+    //
     const size_t sz = 51;
     std::vector<double> t = linspace<std::vector<double>>(-2.0, 2.0, sz);
     std::vector<double> x(sz);
@@ -22,8 +25,7 @@ int main()
     std::string py_file = "../plotter.py";
     gen_python_program(py_file, t, x);
 
-    auto val = std::system("python ../plotter.py");
-
+    auto val = RunPython("python", py_file);
     std::cout << "program exited with value: " << val << "\n";
 
 }
