@@ -11,8 +11,9 @@ int main()
     //
     //  Set up variables for test plot
     //
+    using VectorType = std::vector<double>;
     const size_t sz = 51;
-    std::vector<double> t = linspace<std::vector<double>>(-2.0, 2.0, sz);
+    std::vector<double> t = linspace<VectorType>(-2.0, 2.0, sz);
     std::vector<double> x(sz);
     std::transform(
             t.cbegin(), t.cend(),
@@ -23,7 +24,7 @@ int main()
             });
 
     std::string py_file = "../plotter.py";
-    gen_python_program(py_file, t, x);
+    program_to_plot_t_ft(py_file, t, x);
 
     auto val = RunPython("python", py_file);
     std::cout << "program exited with value: " << val << "\n";

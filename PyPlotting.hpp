@@ -69,10 +69,10 @@ namespace PyPlotting {
     }
 
     template <class Container>
-    void gen_python_program(
-            const std::string filename,
-            const Container &t,
-            const Container &x)
+    void program_to_plot_t_ft(
+            const std::string_view filename,
+            const Container& t,
+            const Container& f_t)
     {
         std::ofstream outfile(filename);
 
@@ -80,7 +80,7 @@ namespace PyPlotting {
         outfile << "\n";
 
         write_python_vector(outfile, "t", t);
-        write_python_vector(outfile, "x", x);
+        write_python_vector(outfile, "x", f_t);
 
         outfile << "\n";
         outfile << "plt.plot(t, x, 'b')\n";
