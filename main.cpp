@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "PyPlotting.hpp";
+#include "PyPlotting.hpp"
 
 int main()
 {
@@ -24,7 +24,7 @@ int main()
             });
 
     std::string py_file = "../plotter.py";
-    program_to_plot_t_ft(py_file, t, x);
+    program_to_plot_t_ft(py_file, "t", t, "x", x);
 
     auto val = RunPython("python", py_file);
     std::cout << "program exited with value: " << val << "\n";

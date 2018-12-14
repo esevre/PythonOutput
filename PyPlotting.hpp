@@ -14,15 +14,22 @@
 
 
 namespace PyPlotting {
+
+    int RunPython(std::string python_version, std::string python_file)
+    {
+        std::string command_string = python_version + " " + python_file;
+        return  std::system(command_string.c_str());
+    }
+
     //
     //  Initialize container for use in linspace
+    //  Include a special overload for array container, since there is no resize method;
     //
     template <class Container>
     void initialize(Container &container, const size_t sz)
     {
         container.resize(sz);
     }
-    // Special overload for array container, since there is no resize method;
     template <class DataType, int N>
     void initialize(std::array<DataType,N> &, const size_t) {}
 
@@ -51,9 +58,8 @@ namespace PyPlotting {
         return result;
     }
 
-
     //
-    //  Writes a Python vector to a string with the given name
+    //  Writes a Python vector to a stream with the given name
     //
     template <class Container>
     void write_python_vector(std::ostream &os, const std::string_view var_name, const Container &v)
@@ -68,10 +74,42 @@ namespace PyPlotting {
         os << "]\n";
     }
 
+
+    template <class Container>
+    void plot_code_to_stream(
+            std::ostream &os,
+            const std::string_view t_name,
+            const Container &t,
+            const std::string_view f_t_name,
+            const Container &f_t)
+    {
+        write_python_vector(os, t_name, t);
+        write_python_vector(os, f_t_name, f_t);
+    }
+
+
+    void plot_to_stream(
+            std::ostream &os,
+            const std::string_view plot_name,
+            const std::string_view t_name,
+            const std::string_view f_t_name)
+    {
+        os << plot_name << ".plot(" << t_name << ", " << f_t_name << ", 'r')\n";
+    }
+
+    void plot_show_to_stream(
+            std::ostream &os,
+            const std::string_view plot_name = "plt")
+    {
+        os << plot_name << ".show()\n";
+    }
+
     template <class Container>
     void program_to_plot_t_ft(
-            const std::string_view filename,
+            const std::string &filename,
+            const std::string_view t_name,
             const Container& t,
+            const std::string_view f_t_name,
             const Container& f_t)
     {
         std::ofstream outfile(filename);
@@ -79,21 +117,22 @@ namespace PyPlotting {
         outfile << "import matplotlib.pyplot as plt\n";
         outfile << "\n";
 
-        write_python_vector(outfile, "t", t);
-        write_python_vector(outfile, "x", f_t);
+        plot_code_to_stream(outfile, t_name, t, f_t_name, f_t);
 
         outfile << "\n";
-        outfile << "plt.plot(t, x, 'b')\n";
-        outfile << "plt.show()\n";
+
+        plot_to_stream(outfile, "plt", t_name, f_t_name);
+        plot_show_to_stream(outfile, "plt");
         outfile << "\n";
 
         outfile.close();
     }
 
-    int RunPython(std::string python_version, std::string python_file)
-    {
-        std::string command_string = python_version + " " + python_file;
-        return  std::system(command_string.c_str());
-    }
+
+
+
+
+
+
 
 }
