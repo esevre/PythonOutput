@@ -12,9 +12,12 @@ int main()
     //  Set up variables for test plot
     //
     using VectorType = std::vector<double>;
-    const size_t sz = 51;
-    std::vector<double> t = linspace<VectorType>(-2.0, 2.0, sz);
-    std::vector<double> x(sz);
+    const size_t sz = 21;
+    VectorType t;
+    t = linspace<VectorType>(-2.0, 2.0, sz);
+    VectorType x;
+    initialize(x, sz);
+    
     std::transform(
             t.cbegin(), t.cend(),
             x.begin(),
