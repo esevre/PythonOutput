@@ -22,7 +22,7 @@ int main()
     std::string py_file = "../plotter.py";
     gen_python_program(py_file, t, x);
 
-    auto val = std::system("python3.6 ../plotter.py");
+    auto val = std::system("python ../plotter.py");
 
     std::cout << "program exited with value: " << val << "\n";
 
